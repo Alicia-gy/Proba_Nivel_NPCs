@@ -2,6 +2,9 @@ package proba;
 
 public class NPC_mercader extends NPC {
 	
+	private static final int maxInventory = 7;
+	private static final double tax = 1.04;
+	
 	public NPC_mercader(String name, Ciudad city) {
 		super(name, city);
 	}
@@ -9,12 +12,12 @@ public class NPC_mercader extends NPC {
 
 	
 	@Override
-	public void addItem(Item item) {
-		if (super.getItems().size() < 7) {
-			super.addItem(item);
-			item.setPrice(item.getPrice() * 1.04);
+	public void addItem(Item item) throws MaxInventoryException {
+		if (super.getItems().size() < maxInventory) {
+			super.getItems().add(item);
+			item.setPrice(item.getPrice() * tax);
 		} else {
-			System.out.println("Inventario lleno! no puedes añadir este item");
+			throw new MaxInventoryException("Inventario lleno! no puedes añadir este item");
 		}
 	}
 }

@@ -2,11 +2,12 @@ package proba;
 
 import java.util.ArrayList;
 
-public class NPC {
+abstract class NPC {
 	
 	private String name;
 	private Ciudad city;
 	private ArrayList<Item> items;
+
 
 	
 	
@@ -18,12 +19,30 @@ public class NPC {
 	
 	
 	
-	public void addItem(Item item) {
-		items.add(item);
+	public void addItem(Item item) throws MaxInventoryException {
+		
 	}
+
 	
 	public void removeItem(Item item) {
-		items.removeIf(cond -> item.getName().equals(item.getName()));
+		if(items.contains(item)) {
+			items.remove(item);
+			System.out.println("item eliminado");
+		} else {
+			System.out.println("El NPC no tiene ese item");
+		}
+	}
+	
+	public Item buscarItem(String name) {
+		Item item;
+		
+		item = items.stream().filter(n -> n.getName() == name).findAny().orElse(null);
+		
+		if(item == null) {
+			System.out.println("Item no encontrado");
+		}
+		
+		return item;
 	}
 	
 	public String getName() {
@@ -37,6 +56,12 @@ public class NPC {
 	public ArrayList<Item> getItems() {
 		return items;
 	}
+	
+	public void checkItems() {
+		System.out.println("Lista de objetos de " + name + "\n");
+		items.forEach(n -> System.out.println(n.toString() + "\n"));
+	} //imprime directamente la lista
+	
 	
 
 	
